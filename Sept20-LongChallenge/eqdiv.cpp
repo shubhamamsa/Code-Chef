@@ -3,160 +3,168 @@
 
 using namespace std;
 
+unsigned long long power(unsigned long long a, unsigned long long b)	{
+	if(b == 0)
+		return 1;
+	unsigned long long ans = power(a, b/2);
+	ans = ans*ans;
+	if(b%2!=0)
+		ans = ans*a;
+	return ans;
+}
 
+void equalDiv1(unsigned long long n)	{
 
-void equalDiv1(long long n)	{
-
-	long long arr[n];
-	if(n%2 == 0)	{
-		int flag = -1;
-		for(int i=0;i<n/2;i++)	{
-			arr[i] = flag;
-			flag*=-1;
+	vector<int>check(n);
+	vector<long long>arr(n);
+	arr[0] = 1;
+	for(long long i=2;i<=n;i++)
+		arr[i-1] = arr[i-2]+power(i, 1);
+	long long maxsum = arr[n-1];
+	long long sum1 = 0, sum2 = 0, k=-1;
+	for(long long i=0;i<n;i++)	{
+		sum1=arr[i];
+		sum2 = maxsum-sum1;
+		if(sum1 > sum2)	{
+			check[i] = 1;
+			k = i-1;
+			break;
 		}
-		if((n/2)%2!=0)	{
-			arr[n/2] = flag;
-			for(int i=n/2+1;i<n;i++)	{
-				arr[i] = flag;
-				flag*=-1;
+	}
+	long long diff = sum1-sum2;
+	for(long long i=k;i>=0;i--)	{
+		if(sum1 > sum2)	{
+			if((sum1-arr[i] >= sum2 + arr[i]) && (sum1-sum2-2*arr[i])<diff)	{
+				check[i] = 1;
+				sum1-=arr[i];
+				sum2+=arr[i];
+				diff = sum1-sum2;
+				break;
+			}
+			else if((sum1-arr[i] < sum2 + arr[i]) && (sum2-sum1+2*arr[i])<diff)	{
+				check[i] = 1;
+				sum1-=arr[i];
+				sum2+=arr[i];
+				diff = sum2-sum1;	
 			}
 		}
 		else	{
-			flag*=-1;
-			for(int i=n/2;i<n;i++)	{
-				arr[i] = flag;
-				flag*=-1;
+			if((sum2-arr[i] >= sum1 + arr[i]) && (sum2-sum1-2*arr[i])<diff)	{
+				check[i] = 1;
+				sum2-=arr[i];
+				sum1+=arr[i];
+				diff = sum2-sum1;
+				break;
+			}
+			else if((sum2-arr[i] < sum1 + arr[i]) && (sum1-sum2+2*arr[i])<diff)	{
+				check[i] = 1;
+				sum1+=arr[i];
+				sum2-=arr[i];
+				diff = sum1-sum2;	
 			}
 		}
 	}
-	else {
-		arr[0] = -1;
-		int flag = -1;
-		for(int i=1;i<(n+1)/2;i++)	{
-			arr[i] = flag;
-			flag*=-1;
-		}
-		if(((n-1)/2)%2!=0)	{
-			arr[(n+1)/2] = flag;
-			for(int i=(n+1)/2+1;i<n;i++)	{
-				arr[i] = flag;
-				flag*=-1;
-			}
-		}
-		else	{
-			flag*=-1;
-			for(int i=(n+1)/2;i<n;i++)	{
-				arr[i] = flag;
-				flag*=-1;
-			}
-		}
-	}
-	long long sum1 = 0, sum2 = 0;
+	cout << diff;
+	//cout << sum1 << " " << sum2 << endl;
+	int flag = 1;
+	vector<int>final(n);
+	for(int i=0;i<n;i++);
+		//cout << check[i];
+	cout << endl;
 	for(int i=0;i<n;i++)	{
-		if(arr[i] == -1)	{
+		if(flag == 1)
+			final[i] = 1;
+		else
+			final[i] = 0;
+		if(check[i] == 1)
+			flag*=-1;
+	}
+	sum1=0, sum2=0;
+	for(int i=0;i<n;i++)	{
+		if(final[i] == 1)
 			sum1+=i+1;
-			//cout << 0;
-		}
-		else	{
+		else
 			sum2+=i+1;
-			//cout << 1;
-		}
+		cout << final[i];
 	}
-	cout << abs(sum1-sum2)<<endl;
-	for(int i=0;i<n;i++)	{
-		if(arr[i] == -1)	{
-			//sum1+=i+1;
-			cout << 0;
-		}
-		else	{
-			//sum2+=i+1;
-			cout << 1;
-		}
-	}
-}
-void equalDiv2(long long n)	{
-long long arr[n];
-	if(n%2 == 0)	{
-		int flag = -1;
-		for(int i=0;i<n/2;i++)	{
-			arr[i] = flag;
-			flag*=-1;
-		}
-		if((n/2)%2!=0)	{
-			arr[n/2] = flag;
-			for(int i=n/2+1;i<n;i++)	{
-				arr[i] = flag;
-				flag*=-1;
-			}
-		}
-		else	{
-			flag*=-1;
-			for(int i=n/2;i<n;i++)	{
-				arr[i] = flag;
-				flag*=-1;
-			}
-		}
-	}
-	else {
-		arr[0] = -1;
-		int flag = -1;
-		for(int i=1;i<(n+1)/2;i++)	{
-			arr[i] = flag;
-			flag*=-1;
-		}
-		if(((n-1)/2)%2!=0)	{
-			arr[(n+1)/2] = flag;
-			for(int i=(n+1)/2+1;i<n;i++)	{
-				arr[i] = flag;
-				flag*=-1;
-			}
-		}
-		else	{
-			flag*=-1;
-			for(int i=(n+1)/2;i<n;i++)	{
-				arr[i] = flag;
-				flag*=-1;
-			}
-		}
-	}
-	long long sum1 = 0, sum2 = 0;
-	for(int i=0;i<n;i++)	{
-		if(arr[i] == -1)	{
-			sum1+=pow(i+1, 2);
-			//cout << 0;
-		}
-		else	{
-			sum2+=pow(i+1, 2);
-			//cout << 1;
-		}
-	}
-	cout << abs(sum1-sum2)<<endl;
-	for(int i=0;i<n;i++)	{
-		if(arr[i] == -1)	{
-			//sum1+=i+1;
-			cout << 0;
-		}
-		else	{
-			//sum2+=i+1;
-			cout << 1;
-		}
-	}
-}
-void equalDiv3(long long n)	{
-;	
-}
-void equalDiv4(long long n)	{
-;	
 }
 
+void equalDiv2(unsigned long long n)	{
+	vector<int>check(n);
+	vector<unsigned long long>arr(n);
+	arr[0] = 1;
+	for(unsigned long long i=2;i<=n;i++)
+		arr[i-1] = arr[i-2]+(i*i);
+	unsigned long long maxsum = arr[n-1];
+	unsigned long long sum1 = 0, sum2 = 0, k=-1;
+	for(int i=0;i<n;i++)	{
+		sum1=arr[i];
+		sum2 = maxsum-sum1;
+		if(sum1 > sum2)	{
+			check[i] = 1;
+			k = i-1;
+			break;
+		}
+	}
+	unsigned long long diff = sum1-sum2;
+	for(int i=k;i>=0;i--)	{
+		if(sum1 > sum2)	{
+			if((sum1-arr[i] >= sum2 + arr[i]) && (sum1-sum2-2*arr[i])<diff)	{
+				check[i] = 1;
+				sum1-=arr[i];
+				sum2+=arr[i];
+				diff = sum1-sum2;
+				break;
+			}
+			else if((sum1-arr[i] < sum2 + arr[i]) && (sum2-sum1+2*arr[i])<diff)	{
+				check[i] = 1;
+				sum1-=arr[i];
+				sum2+=arr[i];
+				diff = sum2-sum1;	
+			}
+		}
+		else	{
+			if((sum2-arr[i] >= sum1 + arr[i]) && (sum2-sum1-2*arr[i])<diff)	{
+				check[i] = 1;
+				sum2-=arr[i];
+				sum1+=arr[i];
+				diff = sum2-sum1;
+				break;
+			}
+			else if((sum2-arr[i] < sum1 + arr[i]) && (sum1-sum2+2*arr[i])<diff)	{
+				check[i] = 1;
+				sum1+=arr[i];
+				sum2-=arr[i];
+				diff = sum1-sum2;	
+			}
+		}
+	}
+	cout << diff;
+	//cout << sum1 << " " << sum2 << endl;
+	int flag = 1;
+	cout << endl;
+	/*for(int i=0;i<n;i++)	{
+		if(flag == 1)
+			cout << 1;
+		else
+			cout << 0;
+		if(check[i] == 1)
+			flag*=-1;
+	}*/
+}
 void subMain(long long k)	{
-	long long n;
+	unsigned long long n;
 	cin >> n;
+	for(int i=1;i<=n;i++)	{
 	switch(k)	{
 		case 1: equalDiv1(n);break;
-		case 2: equalDiv2(n);break;
-		case 3: equalDiv3(n);break;
-		case 4: equalDiv4(n);break;
+		case 2: equalDiv2(i);
+				break;
+		case 3: //equalDiv3(n);
+				break;
+		case 4: //equalDiv4(n);
+				break;
+	}
 	}
 }
 
