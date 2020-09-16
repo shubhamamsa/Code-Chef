@@ -97,26 +97,20 @@ void equalDiv2(unsigned long long n)	{
 		arr[i-1] = arr[i-2]+(i*i);
 	unsigned long long maxsum = arr[n-1];
 	unsigned long long sum1 = 0, sum2 = 0, k=-1;
-	for(int i=0;i<n;i++)	{
-		sum1=arr[i];
-		sum2 = maxsum-sum1;
-		if(sum1 > sum2)	{
-			check[i] = 1;
-			k = i-1;
-			break;
-		}
-	}
+	k = n-1;
+	sum1 = maxsum;
+	sum2 = 0;
 	unsigned long long diff = sum1-sum2;
 	for(int i=k;i>=0;i--)	{
 		if(sum1 > sum2)	{
-			if((sum1-arr[i] >= sum2 + arr[i]) && (sum1-sum2-2*arr[i])<diff)	{
+			if((sum1-arr[i] >= sum2 + arr[i]) && (sum1-sum2-2*arr[i])<=diff)	{
 				check[i] = 1;
 				sum1-=arr[i];
 				sum2+=arr[i];
 				diff = sum1-sum2;
 				break;
 			}
-			else if((sum1-arr[i] < sum2 + arr[i]) && (sum2-sum1+2*arr[i])<diff)	{
+			else if((sum1-arr[i] < sum2 + arr[i]) && (sum2-sum1+2*arr[i])<=diff)	{
 				check[i] = 1;
 				sum1-=arr[i];
 				sum2+=arr[i];
@@ -124,14 +118,14 @@ void equalDiv2(unsigned long long n)	{
 			}
 		}
 		else	{
-			if((sum2-arr[i] >= sum1 + arr[i]) && (sum2-sum1-2*arr[i])<diff)	{
+			if((sum2-arr[i] >= sum1 + arr[i]) && (sum2-sum1-2*arr[i])<=diff)	{
 				check[i] = 1;
 				sum2-=arr[i];
 				sum1+=arr[i];
 				diff = sum2-sum1;
 				break;
 			}
-			else if((sum2-arr[i] < sum1 + arr[i]) && (sum1-sum2+2*arr[i])<diff)	{
+			else if((sum2-arr[i] < sum1 + arr[i]) && (sum1-sum2+2*arr[i])<=diff)	{
 				check[i] = 1;
 				sum1+=arr[i];
 				sum2-=arr[i];
@@ -139,18 +133,18 @@ void equalDiv2(unsigned long long n)	{
 			}
 		}
 	}
-	cout << diff;
-	//cout << sum1 << " " << sum2 << endl;
+	cout << diff << endl;
+	cout << sum1 << " " << sum2 << endl;
 	int flag = 1;
-	cout << endl;
-	/*for(int i=0;i<n;i++)	{
+	for(int i=0;i<n;i++)	{
 		if(flag == 1)
 			cout << 1;
 		else
 			cout << 0;
 		if(check[i] == 1)
 			flag*=-1;
-	}*/
+	}
+	cout << endl << endl;
 }
 void subMain(long long k)	{
 	unsigned long long n;
