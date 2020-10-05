@@ -17,50 +17,9 @@ long long highestPowerof2(long long n)
 } 
 int main() {
 	// your code goes here
-	int t;
-	cin>>t;
-	while(t--){
-	    long long n;
-	    cin>>n;
-	    long long ans=highestPowerof2(n);
-	    if(ans==n){
-	        cout<<"-1"<<endl;
-	    }
-	    else{
-	        for(long long i=ans;i<=n;i++){
-	            cout<<i<<" ";
-	        }
-	        //ans=ans-1;
-	        if(n%2==0){
-	            cout<<"2"<<" "<<"3"<<" "<<"1"<<" ";
-	            long long k=3;
-	            while(pow(2,k)<=ans){
-	                
-	                
-	                for(long long i=pow(2,k)-1;i>=pow(2,k-1);i--){
-	                    cout<<i<<" ";
-	                }
-	                
-	               k++;
-	            }
-	             cout<<endl;
-	        }
-	        else{
-	            cout<<"1"<<" ";
-	            long long k=2;
-	            while(pow(2,k)<=ans){
-	                
-	                
-	                for(long long i=pow(2,k)-1;i>=pow(2,k-1);i--){
-	                    cout<<i<<" ";
-	                }
-	                k++;
-	            }
-	            cout<<endl;
-	        }
-	       
-	 
-	    }
+	for(int i = 1;i<=100000;i++)	{
+		if((i*i+i)%100 == 0)
+			cout << i << endl;
 	}
 	return 0;
 }

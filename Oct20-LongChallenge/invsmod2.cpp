@@ -11,7 +11,7 @@ long long M(long long n, long long k)	{
 	if(k == 1)
 		return n-1;
 	long long sum = 0;
-	for(int i=0;i<=n;i++)	{
+	for(int i=0;i<=k;i++)	{
 		sum+=M(n-1, k-i);
 	}
 	return sum;
